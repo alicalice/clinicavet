@@ -32,7 +32,7 @@ public class ClinicaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Clinica> buscarPorId(@PathVariable Long Id) {
+    public ResponseEntity<Clinica> buscarPorId(@PathVariable Long id) {
         Optional<Clinica> clinica = clinicaService.buscarPorId(id);
 
         if(clinica.isPresent()) {
