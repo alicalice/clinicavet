@@ -30,6 +30,11 @@ public class TutorController {
         return ResponseEntity.ok(tutorService.listarTodos());
     }
 
+    @GetMapping("/clinica/{clinicaId}")
+    public ResponseEntity<List<Tutor>> listarPorClinica(@PathVariable Long clinicaId) {
+        return ResponseEntity.ok(tutorService.buscarPorClinica(clinicaId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Tutor> buscarPorId(@PathVariable Long id) {
         Optional<Tutor> tutor = tutorService.buscarPorId(id);

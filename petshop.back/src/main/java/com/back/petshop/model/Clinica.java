@@ -1,7 +1,10 @@
 package com.back.petshop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "clinica")
@@ -10,6 +13,10 @@ public class Clinica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "clinica")
+    @JsonIgnore
+    private List<Tutor> tutores;
 
     private String nome;
     private String telefone;
@@ -54,6 +61,14 @@ public class Clinica {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public List<Tutor> getTutores() {
+        return tutores;
+    }
+
+    public void setTutores(List<Tutor> tutores) {
+        this.tutores = tutores;
     }
 
 }

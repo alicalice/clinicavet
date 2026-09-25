@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TutorForm(){
+
+    const [clinicas,setClinicas] = useState([]);
 
     const [isOpen,setIsOpen] = useState(false);
 
@@ -10,7 +12,17 @@ export default function TutorForm(){
         nome:"",
         cpf:"",
         telefone:"",
+        clinicaId:""
     })
+
+    useEffect(()=>{
+        if(isOpen){
+            fetch('http://localhost:8080/api/clinicas')
+            .then(res => res.json())
+            .then(dados => setClinicas(dados))
+            .catch(err => console.error("erro ao buscar clinicas",err))
+        }
+    },[isOpen])
 
     const handleChange =(e: React.ChangeEvent<HTMLInputElement>)=>{
         const fieldName = e.currentTarget.name;
@@ -25,13 +37,22 @@ export default function TutorForm(){
     const handleSubmit = async (e:React.SubmitEvent) =>{
         e.preventDefault();
 
+        const salvarTutor = {
+            nome: data.nome,
+            cpf:data.cpf,
+            telefone:data.telefone,
+            clinica: {
+                id:Number(data.clinicaId)
+            }
+        };
+
         try {
         const  res = await fetch('http://localhost:8080/api/tutores',{
             method: "POST",
             headers: {
                 "Content-Type":"application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(salvarTutor),
         });
 
         if(res.ok){
@@ -41,6 +62,7 @@ export default function TutorForm(){
                 nome:"",
                 cpf:"",
                 telefone:"",
+                clinicaId:''
             })
         } else {
             alert("Erro ao cadastrar tutor. Verifique se os dados estão corretos.")
@@ -115,6 +137,19 @@ export default function TutorForm(){
                                 placeholder="Ex: (87) 9 9999-9999"
                                 />
                             </div>
+
+                            <select 
+                            name="clinicaId"
+                            value={data.clinicaId}
+                            onChange={handleChange as any}
+                            required
+                            className="w-full border rounded-md p-2 text-black">
+                                <option value="" disabled>Selecione uma Clinica...</option>
+                                {clinicas.map((clinica:any)=>(
+                                    <option key={clinica.id}
+                                    value={clinica.id}>{clinica.nome} - {clinica.endereco}</option>
+                                ))}
+                            </select>
 
                             
                             <button

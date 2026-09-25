@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Tutor")
 public class Tutor {
+
+    @ManyToOne
+    @JoinColumn(name = "clinica_id")
+    private Clinica clinica;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,6 +19,8 @@ public class Tutor {
     private String telefone;
 
     public Tutor(){}
+
+
 
     public Long getId() {
         return id;
@@ -45,5 +52,13 @@ public class Tutor {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public Clinica getClinica() {
+        return clinica;
+    }
+
+    public void setClinica(Clinica clinica) {
+        this.clinica = clinica;
     }
 }

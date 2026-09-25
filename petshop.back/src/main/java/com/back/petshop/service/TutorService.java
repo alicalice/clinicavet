@@ -25,6 +25,9 @@ public class TutorService {
     public Optional<Tutor> buscarPorId(Long id){
         return tutorRepository.findById(id);
     }
+    public List<Tutor> buscarPorClinica(Long clinicaId) {
+        return tutorRepository.findByClinicaId(clinicaId);
+    }
 
     public Tutor atualizar(Long id, Tutor tutorAtualizado){
         Tutor tutorExistente = tutorRepository.findById(id)
@@ -33,6 +36,7 @@ public class TutorService {
         tutorExistente.setNome(tutorAtualizado.getNome());
         tutorExistente.setCpf(tutorAtualizado.getCpf());
         tutorExistente.setTelefone(tutorAtualizado.getTelefone());
+        tutorExistente.setClinica(tutorAtualizado.getClinica());
 
         return tutorRepository.save(tutorExistente);
     }

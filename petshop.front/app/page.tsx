@@ -1,38 +1,46 @@
-import TutorDelete from "./components/buttons/TutorDelete";
-import TutorForm from "./components/forms/TutorForm";
+
+import ClinicaForm from "./components/forms/ClinicaForm";
+import ClinicaEdit from "./components/buttons/ClinicaEdit";
+import ClinicaDelete from "./components/buttons/ClinicaDelete";
+import Link from "next/link";
 
 export default async function Home(){
+    const res = await fetch('http://localhost:8080/api/clinicas');
+    const clinicas = await res.json();
 
-  async function resposta() {
-    
-  
-}
+    return(
 
-const res = await fetch("http://localhost:8080/api/tutores")
-const tutores = await res.json();
-  return(
-    <main className="p-10 min-h-screen bg-gray-100 text-gray-900">
-      <h2 className="text-3xl font-bold mb-6">Lista de Tutores</h2>
+        <main className="p-10 min-h-screen bg-gray-100 text-gray-900"> 
+        
+            <div>
 
-      <TutorForm />
+            <h2 className="text-3xl font-bold mb-6">Clinicas Cadastradas</h2>
 
-      <div className="grid gap-4 max-w-2xl">
-        {tutores.map((tutor:any)=>(
-          <div key={tutor.id} className="p-4 border rounded-lg shadow-sm bg-white">
-            <h2 className="text-xl font-semibold">{tutor.nome}</h2>
-            <p><strong>ID:</strong>{tutor.id}</p>
-            <p><strong>CPF:</strong>{tutor.cpf}</p>
-            <p><strong>Telefone</strong>{tutor.telefone}</p>
-            <TutorDelete id={tutor.id}/>
-          </div>
+            <ClinicaForm />
 
-          
-        ))}
+            <div className="grid gap-4 max-w-2xl">
+                {clinicas.map((clinica:any)=>(
+                    <div key={clinica.id} className="p-4 border rounded-lg shadow-sm bg-white">
+                                <h2 className="text-xl font-semibold">{clinica.nome}</h2>
+                                <p><strong>ID:</strong>{clinica.id}</p>
+                                <p><strong>Telefone:</strong>{clinica.telefone}</p>
+                                <p><strong>Endereço:</strong>{clinica.endereco}</p>
 
-        {tutores.length === 0 && (
-          <p>Nenhum tutor cadastrado ainda.</p>
-        )}
-      </div>
-    </main>
-  )
+                                <Link href={`/clinicas/${clinica.id}`}
+                                className="bg-purple-600 text-white px-3 py-1 rounded-md hover:bg-purple-700 text-sm font-medium"
+                                >Ver tutores</Link>
+                                <ClinicaEdit 
+                                id={clinica.id}
+                                nome={clinica.nome}
+                                telefone={clinica.telefone}
+                                endereco={clinica.endereco}
+                                />
+                                <ClinicaDelete id={clinica.id}/>
+                              </div>
+                ))}
+            </div>
+
+            </div>
+        </main>
+    )
 }
