@@ -137,7 +137,7 @@ export default function TutorEdit({id,nome,cpf,telefone,clinicaId}:EditButtonTut
                                     />
                                 </div>
 
-                                 <select 
+                                <select 
                                 name="clinicaId"
                                 value={data.clinicaId}
                                 onChange={handleChange as any}

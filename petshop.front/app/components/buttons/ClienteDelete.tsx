@@ -6,7 +6,7 @@ import { DeleteButtonProps } from "../interface/DeleteButton";
 
 
 
-export default function TutorDelete({id}:DeleteButtonProps){
+export default function ClienteDelete({id}:DeleteButtonProps){
     const router = useRouter();
 
     const handleDelete = async ()=>{
@@ -22,7 +22,7 @@ export default function TutorDelete({id}:DeleteButtonProps){
                 alert("Cliente excluído com sucesso!")
                 router.refresh();
             } else {
-                alert("Erro ao excluir tutor.")
+                alert("Erro ao excluir cliente.")
             }
         } catch(error) {
             console.error("Erro ao deletar:",error);

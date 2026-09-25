@@ -1,19 +1,40 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditButtonPet } from "../interface/EditButton";
 
-export default function PetEdit({id,nome,especie,raca,idade}:EditButtonPet){
+export default function PetEdit({id,nome,especie,raca,idade,tutorId}:EditButtonPet){
     const router = useRouter();
+
     const [isOpen,setIsOpen] = useState(false);
+
+    const [tutores,setTutores] = useState([]);
     
         const [data,setData] = useState({
             nome:nome,
             especie:especie,
             raca:raca,
             idade:idade,
+            tutorId:tutorId
         })
+
+        useEffect(() => {
+        if (isOpen) {
+            setData({
+                nome: nome,
+                especie: especie,
+                raca: raca,
+                idade: idade,
+                tutorId: tutorId
+            });
+
+            fetch('http://localhost:8080/api/tutores')
+                .then(res => res.json())
+                .then(dados => setTutores(dados))
+                .catch(err => console.error("Erro ao buscar tutores:", err));
+        }
+    }, [isOpen]);
     
         const handleChange =(e: React.ChangeEvent<HTMLInputElement>)=>{
             const fieldName = e.currentTarget.name;
@@ -27,14 +48,22 @@ export default function PetEdit({id,nome,especie,raca,idade}:EditButtonPet){
     
         const handleSubmit = async (e:React.SubmitEvent) =>{
             e.preventDefault();
+
+            const attCliente = {
+            nome: data.nome,
+            especie:data.especie,
+            raca:data.raca,
+            idade:data.idade,
+            tutor: data.tutorId ? { id: Number(data.tutorId)}:null
+        };
     
             try {
-            const  res = await fetch(`http://localhost:8080/api/clientes/${id}`,{
+            const  res = await fetch(`http://localhost:8080/api/pacientes/${id}`,{
                 method: "PUT",
                 headers: {
                     "Content-Type":"application/json",
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(attCliente),
             });
     
             if(res.ok){
@@ -127,6 +156,19 @@ export default function PetEdit({id,nome,especie,raca,idade}:EditButtonPet){
                                     placeholder="Ex: 15"
                                     />
                                 </div>
+
+                                <select 
+                                name="tutorId"
+                                value={data.tutorId}
+                                onChange={handleChange as any}
+                                required
+                                className="w-full border rounded-md p-2 text-black">
+                                    <option value="" disabled>Selecione um tutor...</option>
+                                    {tutores.map((tutor:any)=>(
+                                        <option key={tutor.id}
+                                        value={tutor.id}>{tutor.nome} - {tutor.cpf}</option>
+                                    ))}
+                            </select>
     
                                 
                                 <button

@@ -19,5 +19,5 @@ export interface EditButtonPet{
     especie:string
     raca:string
     idade:number
-    
+    tutorId?:number | string
 }
