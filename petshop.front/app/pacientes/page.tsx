@@ -2,12 +2,13 @@ import ClienteDelete from "../components/buttons/ClienteDelete";
 import PetEdit from "../components/buttons/ClienteEdit";
 import TutorEdit from "../components/buttons/TutorEdit";
 import PetForm from "../components/forms/ClienteForm";
+import { api } from "../components/resources/api";
 
 
 export default async function Clientes(){
 
 
-const res = await fetch("http://localhost:8080/api/pacientes")
+const res = await fetch(`${api}/pacientes`)
 const data = await res.json();
 const clientes = Array.isArray(data) ?data : (data.content || [])
   return(

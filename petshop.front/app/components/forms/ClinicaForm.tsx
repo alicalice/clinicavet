@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react";
+import { api } from "../resources/api";
 
 export default function ClinicaForm(){
     const [isOpen,setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function ClinicaForm(){
             e.preventDefault();
     
             try {
-            const  res = await fetch('http://localhost:8080/api/clinicas',{
+            const  res = await fetch(`${api}/clinicas`,{
                 method: "POST",
                 headers: {
                     "Content-Type":"application/json",

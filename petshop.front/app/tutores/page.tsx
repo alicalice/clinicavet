@@ -1,12 +1,13 @@
 import TutorDelete from "../components/buttons/TutorDelete";
 import TutorEdit from "../components/buttons/TutorEdit";
 import TutorForm from "../components/forms/TutorForm";
+import { api } from "../components/resources/api";
 
 
 export default async function Tutores(){
 
 
-const res = await fetch("http://localhost:8080/api/tutores")
+const res = await fetch(`${api}/tutores`)
 const tutores = await res.json();
   return(
     <main className="p-10 min-h-screen bg-gray-100 text-gray-900">

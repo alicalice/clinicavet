@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import { api } from "../resources/api";
 
 export default function TutorForm(){
 
@@ -17,7 +18,7 @@ export default function TutorForm(){
 
     useEffect(()=>{
         if(isOpen){
-            fetch('http://localhost:8080/api/clinicas')
+            fetch(`${api}/clinicas`)
             .then(res => res.json())
             .then(dados => setClinicas(dados))
             .catch(err => console.error("erro ao buscar clinicas",err))
@@ -47,7 +48,7 @@ export default function TutorForm(){
         };
 
         try {
-        const  res = await fetch('http://localhost:8080/api/tutores',{
+        const  res = await fetch(`${api}/tutores`,{
             method: "POST",
             headers: {
                 "Content-Type":"application/json",

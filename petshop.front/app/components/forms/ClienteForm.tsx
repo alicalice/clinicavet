@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { api } from "../resources/api";
 
 export default function PetForm(){
 
@@ -22,7 +23,7 @@ export default function PetForm(){
         useEffect(() => {
         if (isOpen) {
             
-            fetch('http://localhost:8080/api/tutores')
+            fetch(`${api}/tutores`)
                 .then(res => res.json())
                 .then(dados => setTutores(dados))
                 .catch(err => console.error("Erro ao buscar tutores:", err));
@@ -53,7 +54,7 @@ export default function PetForm(){
         };
     
             try {
-            const  res = await fetch(`http://localhost:8080/api/pacientes`,{
+            const  res = await fetch(`${api}/pacientes`,{
                 method: "POST",
                 headers: {
                     "Content-Type":"application/json",

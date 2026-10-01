@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EditButtonClin } from "../interface/EditButton";
+import { api } from "../resources/api";
 
 export default function ClinicaEdit({id,nome,telefone,endereco}:EditButtonClin){
     const router = useRouter();
@@ -28,7 +29,7 @@ export default function ClinicaEdit({id,nome,telefone,endereco}:EditButtonClin){
             e.preventDefault();
     
             try {
-            const  res = await fetch(`http://localhost:8080/api/clinicas/${id}`,{
+            const  res = await fetch(`${api}/clinicas/${id}`,{
                 method: "PUT",
                 headers: {
                     "Content-Type":"application/json",

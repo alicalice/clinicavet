@@ -3,9 +3,10 @@ import ClinicaForm from "./components/forms/ClinicaForm";
 import ClinicaEdit from "./components/buttons/ClinicaEdit";
 import ClinicaDelete from "./components/buttons/ClinicaDelete";
 import Link from "next/link";
+import { api } from "./components/resources/api";
 
 export default async function Home(){
-    const res = await fetch('http://localhost:8080/api/clinicas');
+    const res = await fetch(`${api}/clinicas`);
     const clinicas = await res.json();
 
     return(

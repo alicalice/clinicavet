@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { DeleteButtonProps } from "../interface/DeleteButton";
+import { api } from "../resources/api";
 
 
 
@@ -14,7 +15,7 @@ export default function TutorDelete({id}:DeleteButtonProps){
         if(!confirmar) return;
 
         try{
-            const res = await fetch(`http://localhost:8080/api/tutores/${id}`,{
+            const res = await fetch(`${api}/tutores/${id}`,{
                 method:"DELETE",
             });
 

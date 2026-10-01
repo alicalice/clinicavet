@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EditButtonTutor } from "../interface/EditButton";
+import { api } from "../resources/api";
 
 export default function TutorEdit({id,nome,cpf,telefone,clinicaId}:EditButtonTutor & { clinicaId?: number | string }){
 
@@ -21,7 +22,7 @@ export default function TutorEdit({id,nome,cpf,telefone,clinicaId}:EditButtonTut
 
         useEffect(()=>{
                 if(isOpen){
-                    fetch('http://localhost:8080/api/clinicas')
+                    fetch(`${api}/clinicas`)
                     .then(res => res.json())
                     .then(dados => setClinicas(dados))
                     .catch(err => console.error("erro ao buscar clinicas",err))
@@ -51,7 +52,7 @@ export default function TutorEdit({id,nome,cpf,telefone,clinicaId}:EditButtonTut
         console.log("JSON enviado:", JSON.stringify(attTutor)); 
     
             try {
-            const  res = await fetch(`http://localhost:8080/api/tutores/${id}`,{
+            const  res = await fetch(`${api}/tutores/${id}`,{
                 method: "PUT",
                 headers: {
                     "Content-Type":"application/json",

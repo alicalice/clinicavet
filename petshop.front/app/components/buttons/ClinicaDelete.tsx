@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { DeleteButtonProps } from "../interface/DeleteButton";
+import { api } from "../resources/api";
 
 export default function ClinicaDelete({id}:DeleteButtonProps){
     const router = useRouter();
@@ -11,7 +12,7 @@ export default function ClinicaDelete({id}:DeleteButtonProps){
             if(!confirmar) return;
     
             try{
-                const res = await fetch(`http://localhost:8080/api/clinicas/${id}`,{
+                const res = await fetch(`${api}/clinicas/${id}`,{
                     method:"DELETE",
                 });
     

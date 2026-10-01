@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EditButtonPet } from "../interface/EditButton";
+import { api } from "../resources/api";
 
 export default function PetEdit({id,nome,especie,raca,idade,tutorId}:EditButtonPet){
     const router = useRouter();
@@ -29,7 +30,7 @@ export default function PetEdit({id,nome,especie,raca,idade,tutorId}:EditButtonP
                 tutorId: tutorId
             });
 
-            fetch('http://localhost:8080/api/tutores')
+            fetch(`${api}/tutores`)
                 .then(res => res.json())
                 .then(dados => setTutores(dados))
                 .catch(err => console.error("Erro ao buscar tutores:", err));
@@ -58,7 +59,7 @@ export default function PetEdit({id,nome,especie,raca,idade,tutorId}:EditButtonP
         };
     
             try {
-            const  res = await fetch(`http://localhost:8080/api/pacientes/${id}`,{
+            const  res = await fetch(`${api}/pacientes/${id}`,{
                 method: "PUT",
                 headers: {
                     "Content-Type":"application/json",

@@ -1,3 +1,5 @@
+import { api } from "@/app/components/resources/api";
+
 export default async function ClinicaDetalhesPage({ 
   params 
 }: { 
@@ -7,10 +9,10 @@ export default async function ClinicaDetalhesPage({
   const { id } = await params;
 
   // 2. Busca os dados da Clínica e os Tutores em paralelo ou sequencial
-  const resClinica = await fetch(`http://localhost:8080/api/clinicas/${id}`, { cache: 'no-store' });
+  const resClinica = await fetch(`${api}/clinicas/${id}`, { cache: 'no-store' });
   const clinica = await resClinica.json();
 
-  const resTutores = await fetch(`http://localhost:8080/api/tutores/clinica/${id}`, { cache: 'no-store' });
+  const resTutores = await fetch(`${api}/tutores/clinica/${id}`, { cache: 'no-store' });
   const tutores = await resTutores.json();
 
   return (
