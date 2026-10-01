@@ -7,7 +7,9 @@ import { api } from "../components/resources/api";
 export default async function Tutores(){
 
 
-const res = await fetch(`${api}/tutores`)
+const res = await fetch(`${api}/tutores`,
+  {cache:"no-store"}
+)
 const tutores = await res.json();
   return(
     <main className="p-10 min-h-screen bg-gray-100 text-gray-900">

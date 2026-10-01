@@ -8,7 +8,9 @@ import { api } from "../components/resources/api";
 export default async function Clientes(){
 
 
-const res = await fetch(`${api}/pacientes`)
+const res = await fetch(`${api}/pacientes`,{
+  cache:"no-store"
+})
 const data = await res.json();
 const clientes = Array.isArray(data) ?data : (data.content || [])
   return(

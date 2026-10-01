@@ -65,6 +65,7 @@ export default function PetEdit({id,nome,especie,raca,idade,tutorId}:EditButtonP
                     "Content-Type":"application/json",
                 },
                 body: JSON.stringify(attCliente),
+                cache:"no-store"
             });
     
             if(res.ok){

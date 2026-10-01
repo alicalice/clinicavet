@@ -6,7 +6,9 @@ import Link from "next/link";
 import { api } from "./components/resources/api";
 
 export default async function Home(){
-    const res = await fetch(`${api}/clinicas`);
+    const res = await fetch(`${api}/clinicas`,{
+        cache:"no-store"
+    });
     const clinicas = await res.json();
 
     return(
