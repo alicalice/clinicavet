@@ -40,6 +40,7 @@ export default function DeleteButton({
     return (
         <>
             <Button
+                type="button"
                 variant="danger"
                 onClick={() => setIsOpen(true)}
                 className="px-3 py-1 text-sm"
@@ -66,6 +67,7 @@ export default function DeleteButton({
                         </Button>
 
                         <Button
+                            type="button"
                             variant="danger"
                             size="sm"
                             onClick={() => setIsOpen(true)}
