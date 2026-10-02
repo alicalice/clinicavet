@@ -61,7 +61,7 @@ export default function ClinicaForm(){
     
         return(
                     <div>
-                        <div className="my-4">
+                        <div>
                             <Button
                                 onClick={() => setIsOpen(true)}
                             >

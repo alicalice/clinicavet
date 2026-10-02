@@ -62,7 +62,7 @@ export default function ClinicaEdit({
 
     return (
         <div>
-            <div className="my-4">
+            <div>
                 <Button
                     variant="secondary"
                     onClick={() => setIsOpen(true)}

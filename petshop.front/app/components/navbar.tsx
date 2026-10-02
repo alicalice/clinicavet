@@ -1,13 +1,30 @@
 import Link from "next/link";
 
-export default function Navbar(){
+export default function Navbar() {
+    return (
+        <nav className="border-b border-border bg-primary text-foreground shadow-sm">
+            <div className="mx-auto flex max-w-5xl items-center gap-6 px-6 py-4">
+                <Link
+                    href="/"
+                    className="font-semibold transition-colors hover:text-muted"
+                >
+                    Clínicas
+                </Link>
 
-    return(
-        <nav className="bg-blue-600 p-4 flex gap-4 text-white">
-            <Link href="../">Clinicas</Link>
-            <Link href="../tutores/">Tutores</Link>
-            <Link href="../pacientes/">Pacientes</Link>
+                <Link
+                    href="/tutores"
+                    className="font-semibold transition-colors hover:text-muted"
+                >
+                    Tutores
+                </Link>
+
+                <Link
+                    href="/pacientes"
+                    className="font-semibold transition-colors hover:text-muted"
+                >
+                    Pacientes
+                </Link>
+            </div>
         </nav>
-    )
-    
+    );
 }

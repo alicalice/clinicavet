@@ -32,7 +32,7 @@ export default async function Home() {
                     {clinicas.map((clinica: any) => (
                         <div
                             key={clinica.id}
-                            className="rounded-xl border border-border bg-surface p-6 shadow-sm"
+                            className="rounded-xl border border-border bg-card p-6 shadow-sm"
                         >
                             <div className="mb-5">
                                 <h2 className="text-xl font-semibold">
@@ -66,7 +66,7 @@ export default async function Home() {
                             <div className="flex flex-wrap items-center gap-3">
                                 <Link
                                     href={`/clinicas/${clinica.id}`}
-                                    className="rounded-md border border-border bg-surface px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-primary"
+                                    className="rounded-md border border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-primary"
                                 >
                                     Ver tutores
                                 </Link>

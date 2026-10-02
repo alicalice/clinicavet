@@ -25,14 +25,14 @@ export default function Button({
             "bg-primary text-foreground hover:bg-primary-hover",
 
         secondary:
-            "border border-border bg-surface text-foreground hover:bg-primary",
+            "border border-border bg-transparent text-foreground hover:bg-primary",
 
         danger:
             "bg-danger text-danger-text hover:bg-danger-hover",
 
         ghost:
             "bg-transparent text-muted hover:bg-primary",
-    };
+};
 
     return (
         <button

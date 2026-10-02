@@ -3,50 +3,106 @@ import PetEdit from "../components/buttons/ClienteEdit";
 import PetForm from "../components/forms/ClienteForm";
 import { api } from "../components/resources/api";
 
+export default async function Clientes() {
+    const res = await fetch(`${api}/pacientes`, {
+        cache: "no-store",
+    });
 
-export default async function Clientes(){
+    const data = await res.json();
 
+    const clientes = Array.isArray(data)
+        ? data
+        : (data.content || []);
 
-const res = await fetch(`${api}/pacientes`,{
-  cache:"no-store"
-})
-const data = await res.json();
-const clientes = Array.isArray(data) ?data : (data.content || [])
-  return(
-    <main className="p-10 min-h-screen bg-gray-100 text-gray-900">
-      
-      <h2 className="text-3xl font-bold mb-6">Cliente Cadastrados</h2>
+    return (
+        <main className="min-h-screen bg-background px-6 py-10 text-foreground">
+            <div className="mx-auto max-w-5xl">
+                <div className="mb-8 flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold">
+                            Pacientes cadastrados
+                        </h1>
 
-      <PetForm />
+                        <p className="mt-1 text-muted">
+                            Gerencie os pacientes cadastrados no sistema.
+                        </p>
+                    </div>
 
-      <div className="grid gap-4 max-w-2xl">
-        {clientes.map((cliente:any)=>(
-          <div key={cliente.id} className="p-4 border rounded-lg shadow-sm bg-white">
-            <h2 className="text-xl font-semibold">{cliente.nome}</h2>
-            <p><strong>ID: </strong>{cliente.id}</p>
-            <p><strong>Especie: </strong>{cliente.especie}</p>
-            <p><strong>Raca: </strong>{cliente.raca}</p>
-            <p><strong>Idade: </strong>{cliente.idade}</p>
-            <p><strong>Tutor: </strong>{cliente.tutor?.nome || "Sem Tutor Vinculado."} </p>
-            <PetEdit 
-            id={cliente.id}
-            nome={cliente.nome}
-            especie={cliente.especie}
-            raca={cliente.raca}
-            idade={cliente.idade}
-            tutorId={cliente.tutor?.id}
-            
-            />
-            <ClienteDelete id={cliente.id}/>
-          </div>
+                    <PetForm />
+                </div>
 
-          
-        ))}
+                <div className="grid gap-4">
+                    {clientes.map((cliente: any) => (
+                        <div
+                            key={cliente.id}
+                            className="rounded-xl border border-border bg-card p-6 shadow-sm"
+                        >
+                            <div className="mb-5">
+                                <h2 className="text-xl font-semibold">
+                                    {cliente.nome}
+                                </h2>
 
-        {clientes.length === 0 && (
-          <p>Nenhum cliente cadastrado ainda.</p>
-        )}
-      </div>
-    </main>
-  )
+                                <div className="mt-3 space-y-1 text-sm text-muted">
+                                    <p>
+                                        <strong className="text-foreground">
+                                            ID:
+                                        </strong>{" "}
+                                        {cliente.id}
+                                    </p>
+
+                                    <p>
+                                        <strong className="text-foreground">
+                                            Espécie:
+                                        </strong>{" "}
+                                        {cliente.especie}
+                                    </p>
+
+                                    <p>
+                                        <strong className="text-foreground">
+                                            Raça:
+                                        </strong>{" "}
+                                        {cliente.raca}
+                                    </p>
+
+                                    <p>
+                                        <strong className="text-foreground">
+                                            Idade:
+                                        </strong>{" "}
+                                        {cliente.idade}
+                                    </p>
+
+                                    <p>
+                                        <strong className="text-foreground">
+                                            Tutor:
+                                        </strong>{" "}
+                                        {cliente.tutor?.nome ||
+                                            "Sem tutor vinculado."}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-3">
+                                <PetEdit
+                                    id={cliente.id}
+                                    nome={cliente.nome}
+                                    especie={cliente.especie}
+                                    raca={cliente.raca}
+                                    idade={cliente.idade}
+                                    tutorId={cliente.tutor?.id}
+                                />
+
+                                <ClienteDelete id={cliente.id} />
+                            </div>
+                        </div>
+                    ))}
+
+                    {clientes.length === 0 && (
+                        <div className="rounded-xl border border-border bg-card p-6 text-muted">
+                            Nenhum paciente cadastrado ainda.
+                        </div>
+                    )}
+                </div>
+            </div>
+        </main>
+    );
 }
