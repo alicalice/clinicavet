@@ -70,7 +70,7 @@ export default function DeleteButton({
                             type="button"
                             variant="danger"
                             size="sm"
-                            onClick={() => setIsOpen(true)}
+                            onClick={handleDelete}
                         >
                             Excluir
                         </Button>
