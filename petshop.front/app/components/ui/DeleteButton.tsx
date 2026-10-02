@@ -74,7 +74,17 @@ export default function DeleteButton({
                         >
                             Excluir
                         </Button>
+
+                        
                 </div>
+
+                <div className="border-t border-border pt-3">
+                    <p className="text-xs text-muted">
+                        Verifique se não há vínculos associados antes de excluir.
+                    </p>
+                </div>
+
+                
                 </div>
             </Modal>
         </>
