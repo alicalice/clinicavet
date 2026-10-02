@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { api } from "../resources/api";
+import Modal from "../ui/modal";
 
 export default function TutorForm(){
 
@@ -25,7 +26,7 @@ export default function TutorForm(){
         }
     },[isOpen])
 
-    const handleChange =(e: React.ChangeEvent<HTMLInputElement>)=>{
+    const handleChange =(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
         const fieldName = e.currentTarget.name;
         const fieldValue = e.currentTarget.value;
 
@@ -79,95 +80,102 @@ export default function TutorForm(){
     return(
         <div>
             <div className="my-4">
-                <button onClick={()=> setIsOpen(true)}
-                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium">
-                    Cadastrar Cliente
+                <button
+                    onClick={() => setIsOpen(true)}
+                    className="rounded-md bg-primary px-4 py-2 font-medium text-foreground transition-colors hover:bg-primary-hover"
+                >
+                    Cadastrar Tutor
                 </button>
             </div>
-            {isOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative text-gray-800">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-bold mb-4">Cadastrar Novo Tutor</h2>
-                            <button onClick={()=>setIsOpen(false)}
-                            className="text-gray-500 hover:text-gray-700 text-xl font-bold">
-                                ✕ Fechar
-                            </button>
-                        </div>
 
+            <Modal
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                title="Cadastrar novo tutor"
+            >
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                >
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Nome do Tutor
+                        </label>
+                        <input
+                            type="text"
+                            name="nome"
+                            value={data.nome}
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                            placeholder="Ex: Julia Amorim"
+                        />
+                    </div>
 
-                        {/*formulario*/}
-                        <form onSubmit={handleSubmit} 
-                        className="p-4 border rounded-md shadow-sm max-w-md mt-6">
-                            
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium mb-1">Nome do Tutor:</label>
-                                <input
-                                type="text"
-                                name="nome"
-                                value={data.nome}
-                                onChange={handleChange}
-                                required
-                                className="w-full border rounded-md p-2 text-black"
-                                placeholder="Ex: Julia Amorim"
-                                />
-                            </div>
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            CPF do Tutor
+                        </label>
+                        <input
+                            type="text"
+                            name="cpf"
+                            value={data.cpf}
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                            placeholder="Ex: 999.999.999-67"
+                        />
+                    </div>
 
-                            <div>
-                                <label className="block text-sm font-medium mb-1">CPF do tutor:</label>
-                                <input
-                                type="text"
-                                name="cpf"
-                                value={data.cpf}
-                                onChange={handleChange}
-                                required
-                                className="w-full border rounded-md p-2 text-black"
-                                placeholder="Ex: 999.999.999-67"
-                                />
-                            </div>
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Telefone do Tutor
+                        </label>
+                        <input
+                            type="text"
+                            name="telefone"
+                            value={data.telefone}
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                            placeholder="Ex: (87) 9 9999-9999"
+                        />
+                    </div>
 
-                            <div>
-                                <label className="block text-sm font-medium mb-1">Telefone do Tutor</label>
-                                <input
-                                type="text"
-                                name="telefone"
-                                value={data.telefone}
-                                onChange={handleChange}
-                                required
-                                className="w-full border rounded-md p-2 text-black"
-                                placeholder="Ex: (87) 9 9999-9999"
-                                />
-                            </div>
-
-                            <select 
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Clínica
+                        </label>
+                        <select
                             name="clinicaId"
                             value={data.clinicaId}
-                            onChange={handleChange as any}
+                            onChange={handleChange}
                             required
-                            className="w-full border rounded-md p-2 text-black">
-                                <option value="" disabled>Selecione uma Clinica...</option>
-                                {clinicas.map((clinica:any)=>(
-                                    <option key={clinica.id}
-                                    value={clinica.id}>{clinica.nome} - {clinica.endereco}</option>
-                                ))}
-                            </select>
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                        >
+                            <option value="" disabled>
+                                Selecione uma clínica...
+                            </option>
 
-                            
-                            <button
-                            type="submit"
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full"
-                            >Salvar Tutor</button>
-                        </form>
-
+                            {clinicas.map((clinica: any) => (
+                                <option
+                                    key={clinica.id}
+                                    value={clinica.id}
+                                >
+                                    {clinica.nome} - {clinica.endereco}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                </div>
-            )}
 
-
-
-
-
-        
-    </div>
+                    <button
+                        type="submit"
+                        className="w-full rounded-md bg-primary px-4 py-2 font-medium text-foreground transition-colors hover:bg-primary-hover"
+                    >
+                        Salvar Tutor
+                    </button>
+                </form>
+            </Modal>
+        </div>
     )
 }

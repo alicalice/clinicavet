@@ -1,37 +1,73 @@
-'use client'
+"use client";
 
 import { useRouter } from "next/navigation";
 import { DeleteButtonProps } from "../interface/DeleteButton";
 import { api } from "../resources/api";
+import Button from "../ui/button";
+import Modal from "../ui/modal";
+import { useState } from "react";
 
-export default function ClinicaDelete({id}:DeleteButtonProps){
+export default function ClinicaDelete({ id }: DeleteButtonProps) {
     const router = useRouter();
-    
-        const handleDelete = async ()=>{
-            const confirmar = confirm("Tem certeza que deseja excluir a clinica?")
-            if(!confirmar) return;
-    
-            try{
-                const res = await fetch(`${api}/clinicas/${id}`,{
-                    method:"DELETE",
-                });
-    
-                if(res.ok){
-                    alert("Clinica excluída com sucesso!")
-                    router.refresh();
-                } else {
-                    alert("Erro ao excluir clinica.")
-                }
-            } catch(error) {
-                console.error("Erro ao deletar:",error);
-                alert("Erro de conexão com o servidor.");
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleDelete = async () => {
+        try {
+            const res = await fetch(`${api}/clinicas/${id}`, {
+                method: "DELETE",
+            });
+
+            if (res.ok) {
+                alert("Clínica excluída com sucesso!");
+                setIsOpen(false);
+                router.refresh();
+            } else {
+                alert("Erro ao excluir clínica.");
             }
-        } 
-    
-        return(
-            <button
-            className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm font-medium transition"
-            onClick={handleDelete}
-            >Excluir</button>
-        )
+        } catch (error) {
+            console.error("Erro ao deletar:", error);
+            alert("Erro de conexão com o servidor.");
+        }
+    };
+
+    return (
+        <>
+            <Button
+                variant="danger"
+                onClick={() => setIsOpen(true)}
+                className="px-3 py-1 text-sm"
+            >
+                Excluir
+            </Button>
+
+            <Modal
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                title="Excluir clínica"
+            >
+                <div className="space-y-5">
+                    <p className="text-muted">
+                        Tem certeza que deseja excluir esta clínica?
+                    </p>
+
+                    <div className="flex justify-end gap-3">
+                        <Button
+                            variant="secondary"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Cancelar
+                        </Button>
+
+                        <Button
+                            variant="danger"
+                            onClick={handleDelete}
+                        >
+                            Excluir
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
+        </>
+    );
 }
