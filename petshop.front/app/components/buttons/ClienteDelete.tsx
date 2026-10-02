@@ -15,7 +15,7 @@ export default function ClienteDelete({id}:DeleteButtonProps){
         if(!confirmar) return;
 
         try{
-            const res = await fetch(`${api}/clientes/${id}`,{
+            const res = await fetch(`${api}/pacientes/${id}`,{
                 method:"DELETE",
                 cache:"no-store"
             });
