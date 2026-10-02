@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import { api } from "../resources/api";
 import Modal from "../ui/modal";
 import Button from "../ui/button";
+import { useRouter } from "next/navigation";
 
 export default function TutorForm(){
+
+    const router = useRouter();
 
     const [clinicas,setClinicas] = useState([]);
 
@@ -60,6 +63,7 @@ export default function TutorForm(){
 
         if(res.ok){
             alert("Tutor cadastrado com sucesso!");
+            router.refresh();
             setIsOpen(false);
             setData({
                 nome:"",
