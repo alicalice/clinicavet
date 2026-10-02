@@ -1,49 +1,89 @@
-
 import ClinicaForm from "./components/forms/ClinicaForm";
 import ClinicaEdit from "./components/buttons/ClinicaEdit";
 import ClinicaDelete from "./components/buttons/ClinicaDelete";
 import Link from "next/link";
 import { api } from "./components/resources/api";
 
-export default async function Home(){
-    const res = await fetch(`${api}/clinicas`,{
-        cache:"no-store"
+export default async function Home() {
+    const res = await fetch(`${api}/clinicas`, {
+        cache: "no-store",
     });
+
     const clinicas = await res.json();
 
-    return(
+    return (
+        <main className="min-h-screen bg-background px-6 py-10 text-foreground">
+            <div className="mx-auto max-w-5xl">
+                <div className="mb-8 flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold">
+                            Clínicas cadastradas
+                        </h1>
 
-        <main className="p-10 min-h-screen bg-gray-100 text-gray-900"> 
-        
-            <div>
+                        <p className="mt-1 text-muted">
+                            Gerencie as clínicas cadastradas no sistema.
+                        </p>
+                    </div>
 
-            <h2 className="text-3xl font-bold mb-6">Clinicas Cadastradas</h2>
+                    <ClinicaForm />
+                </div>
 
-            <ClinicaForm />
+                <div className="grid gap-4">
+                    {clinicas.map((clinica: any) => (
+                        <div
+                            key={clinica.id}
+                            className="rounded-xl border border-border bg-surface p-6 shadow-sm"
+                        >
+                            <div className="mb-5">
+                                <h2 className="text-xl font-semibold">
+                                    {clinica.nome}
+                                </h2>
 
-            <div className="grid gap-4 max-w-2xl">
-                {clinicas.map((clinica:any)=>(
-                    <div key={clinica.id} className="p-4 border rounded-lg shadow-sm bg-white">
-                                <h2 className="text-xl font-semibold">{clinica.nome}</h2>
-                                <p><strong>ID:</strong>{clinica.id}</p>
-                                <p><strong>Telefone:</strong>{clinica.telefone}</p>
-                                <p><strong>Endereço:</strong>{clinica.endereco}</p>
+                                <div className="mt-3 space-y-1 text-sm text-muted">
+                                    <p>
+                                        <strong className="text-foreground">
+                                            ID:
+                                        </strong>{" "}
+                                        {clinica.id}
+                                    </p>
 
-                                <Link href={`/clinicas/${clinica.id}`}
-                                className="bg-purple-600 text-white px-3 py-1 rounded-md hover:bg-purple-700 text-sm font-medium"
-                                >Ver tutores</Link>
-                                <ClinicaEdit 
-                                id={clinica.id}
-                                nome={clinica.nome}
-                                telefone={clinica.telefone}
-                                endereco={clinica.endereco}
+                                    <p>
+                                        <strong className="text-foreground">
+                                            Telefone:
+                                        </strong>{" "}
+                                        {clinica.telefone}
+                                    </p>
+
+                                    <p>
+                                        <strong className="text-foreground">
+                                            Endereço:
+                                        </strong>{" "}
+                                        {clinica.endereco}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-3">
+                                <Link
+                                    href={`/clinicas/${clinica.id}`}
+                                    className="rounded-md border border-border bg-surface px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-primary"
+                                >
+                                    Ver tutores
+                                </Link>
+
+                                <ClinicaEdit
+                                    id={clinica.id}
+                                    nome={clinica.nome}
+                                    telefone={clinica.telefone}
+                                    endereco={clinica.endereco}
                                 />
-                                <ClinicaDelete id={clinica.id}/>
-                              </div>
-                ))}
-            </div>
 
+                                <ClinicaDelete id={clinica.id} />
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </main>
-    )
+    );
 }
