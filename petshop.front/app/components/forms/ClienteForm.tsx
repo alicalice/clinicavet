@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "../resources/api";
 import Modal from "../ui/modal";
+import Button from "../ui/button";
 
 export default function PetForm(){
 
@@ -88,12 +89,11 @@ export default function PetForm(){
         return(
             <div>
                     <div className="my-4">
-                        <button
+                        <Button
                             onClick={() => setIsOpen(true)}
-                            className="rounded-md bg-primary px-4 py-2 font-medium text-foreground transition-colors hover:bg-primary-hover"
                         >
                             Cadastrar Paciente
-                        </button>
+                        </Button>
                     </div>
 
                     <Modal
@@ -190,12 +190,12 @@ export default function PetForm(){
                                 ))}
                             </select>
 
-                            <button
+                            <Button
                                 type="submit"
-                                className="w-full rounded-md bg-primary px-4 py-2 font-medium text-foreground transition-colors hover:bg-primary-hover"
+                                className="w-full"
                             >
                                 Salvar
-                            </button>
+                            </Button>
                         </form>
                     </Modal>
                 </div>

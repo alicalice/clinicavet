@@ -1,172 +1,191 @@
-'use client'
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EditButtonTutor } from "../interface/EditButton";
 import { api } from "../resources/api";
+import Button from "../ui/button";
+import Modal from "../ui/modal";
 
-export default function TutorEdit({id,nome,cpf,telefone,clinicaId}:EditButtonTutor & { clinicaId?: number | string }){
-
+export default function TutorEdit({
+    id,
+    nome,
+    cpf,
+    telefone,
+    clinicaId,
+}: EditButtonTutor) {
     const router = useRouter();
 
-    const [clinicas,setClinicas] = useState([]);
+    const [clinicas, setClinicas] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
 
-    const [isOpen,setIsOpen] = useState(false);
-    
-        const [data,setData] = useState({
-            nome:nome,
-            cpf:cpf,
-            telefone:telefone,
-            clinicaId:clinicaId
-        })
+    const [data, setData] = useState({
+        nome,
+        cpf,
+        telefone,
+        clinicaId,
+    });
 
-        useEffect(()=>{
-                if(isOpen){
-                    fetch(`${api}/clinicas`)
-                    .then(res => res.json())
-                    .then(dados => setClinicas(dados))
-                    .catch(err => console.error("erro ao buscar clinicas",err))
-                }
-            },[isOpen])
-    
-        const handleChange =(e: React.ChangeEvent<HTMLInputElement>)=>{
-            const fieldName = e.currentTarget.name;
-            const fieldValue = e.currentTarget.value;
-    
-            setData((prev)=>({
-                ...prev,
-                [fieldName]:fieldValue,
-            }));
+    useEffect(() => {
+        if (isOpen) {
+            fetch(`${api}/clinicas`)
+                .then((res) => res.json())
+                .then((dados) => setClinicas(dados))
+                .catch((err) =>
+                    console.error("Erro ao buscar clínicas:", err)
+                );
         }
-    
-        const handleSubmit = async (e:React.SubmitEvent) =>{
-            e.preventDefault();
+    }, [isOpen]);
 
-            const attTutor = {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const fieldName = e.currentTarget.name;
+        const fieldValue = e.currentTarget.value;
+
+        setData((prev) => ({
+            ...prev,
+            [fieldName]: fieldValue,
+        }));
+    };
+
+    const handleSubmit = async (e: React.SubmitEvent) => {
+        e.preventDefault();
+
+        const attTutor = {
             nome: data.nome,
-            cpf:data.cpf,
-            telefone:data.telefone,
-            clinica: data.clinicaId ? { id: Number(data.clinicaId)}:null
+            cpf: data.cpf,
+            telefone: data.telefone,
+            clinica: data.clinicaId
+                ? { id: Number(data.clinicaId) }
+                : null,
         };
 
-        console.log("JSON enviado:", JSON.stringify(attTutor)); 
-    
-            try {
-            const  res = await fetch(`${api}/tutores/${id}`,{
+        try {
+            const res = await fetch(`${api}/tutores/${id}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type":"application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(attTutor),
             });
-    
-            if(res.ok){
+
+            if (res.ok) {
                 router.refresh();
                 alert("Tutor editado com sucesso!");
                 setIsOpen(false);
             } else {
-                alert("Erro ao editar tutor.")
-            } 
-        }catch(error){
-            console.error("Erro de conexão:",error)
-            alert("Não foi possível conectar ao serivor.")
+                alert("Erro ao editar tutor.");
+            }
+        } catch (error) {
+            console.error("Erro de conexão:", error);
+            alert("Não foi possível conectar ao servidor.");
         }
-        }
-    
-        
-    
-        return(
-            <div>
-                <div className="my-4">
-                    <button onClick={()=> setIsOpen(true)}
-                    className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium">
-                        Editar Cliente
-                    </button>
-                </div>
-                {isOpen && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative text-gray-800">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-xl font-bold mb-4">Editar Tutor</h2>
-                                <button onClick={()=>setIsOpen(false)}
-                                className="text-gray-500 hover:text-gray-700 text-xl font-bold">
-                                    ✕ Fechar
-                                </button>
-                            </div>
-    
-    
-                            {/*formulario*/}
-                            <form onSubmit={handleSubmit} 
-                            className="p-4 border rounded-md shadow-sm max-w-md mt-6">
-                                
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium mb-1">Nome do Tutor:</label>
-                                    <input
-                                    type="text"
-                                    name="nome"
-                                    value={data.nome}
-                                    onChange={handleChange}
-                                    required
-                                    className="w-full border rounded-md p-2 text-black"
-                                    placeholder="Ex: Julia Amorim"
-                                    />
-                                </div>
-    
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">CPF do tutor:</label>
-                                    <input
-                                    type="text"
-                                    name="cpf"
-                                    value={data.cpf}
-                                    onChange={handleChange}
-                                    required
-                                    className="w-full border rounded-md p-2 text-black"
-                                    placeholder="Ex: 999.999.999-67"
-                                    />
-                                </div>
-    
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Telefone do Tutor</label>
-                                    <input
-                                    type="text"
-                                    name="telefone"
-                                    value={data.telefone}
-                                    onChange={handleChange}
-                                    required
-                                    className="w-full border rounded-md p-2 text-black"
-                                    placeholder="Ex: (87) 9 9999-9999"
-                                    />
-                                </div>
+    };
 
-                                <select 
-                                name="clinicaId"
-                                value={data.clinicaId}
-                                onChange={handleChange as any}
-                                required
-                                className="w-full border rounded-md p-2 text-black">
-                                    <option value="" disabled>Selecione uma Clinica...</option>
-                                    {clinicas.map((clinica:any)=>(
-                                        <option key={clinica.id}
-                                        value={clinica.id}>{clinica.nome} - {clinica.endereco}</option>
-                                    ))}
-                            </select>
-    
-                                
-                                <button
-                                type="submit"
-                                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full"
-                                >Salvar</button>
-                            </form>
-    
-                        </div>
+    return (
+        <div>
+            <div className="my-4">
+                <Button
+                    variant="secondary"
+                    onClick={() => setIsOpen(true)}
+                >
+                    Editar Tutor
+                </Button>
+            </div>
+
+            <Modal
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                title="Editar tutor"
+            >
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                >
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Nome do Tutor
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nome"
+                            value={data.nome}
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                            placeholder="Ex: Julia Amorim"
+                        />
                     </div>
-                )}
-    
-    
-    
-    
-    
-            
+
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            CPF do Tutor
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cpf"
+                            value={data.cpf}
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                            placeholder="Ex: 999.999.999-67"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Telefone do Tutor
+                        </label>
+
+                        <input
+                            type="text"
+                            name="telefone"
+                            value={data.telefone}
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                            placeholder="Ex: (87) 9 9999-9999"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Clínica
+                        </label>
+
+                        <select
+                            name="clinicaId"
+                            value={data.clinicaId ?? ""}
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-md border border-border bg-surface p-2 text-foreground outline-none transition focus:border-primary"
+                        >
+                            <option value="" disabled>
+                                Selecione uma clínica...
+                            </option>
+
+                            {clinicas.map((clinica: any) => (
+                                <option
+                                    key={clinica.id}
+                                    value={clinica.id}
+                                >
+                                    {clinica.nome} - {clinica.endereco}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <Button
+                        type="submit"
+                        className="w-full"
+                    >
+                        Salvar
+                    </Button>
+                </form>
+            </Modal>
         </div>
-        )
+    );
 }

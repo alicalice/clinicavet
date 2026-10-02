@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Button from "./button";
 
 interface ModalProps {
     isOpen: boolean;
@@ -85,15 +86,15 @@ export default function Modal({
                         {title}
                     </h2>
 
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        aria-label="Fechar modal"
-                        className="text-muted transition-colors hover:text-foreground"
+                    <Button
+                    variant="ghost"
+                    onClick={onClose}
+                    aria-label="Fechar modal"
+                    className="px-2 py-1 text-lg"
                     >
                         ✕
-                    </button>
-                </div>
+                    </Button>
+                    </div>
 
                 {children}
             </div>

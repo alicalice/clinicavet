@@ -1,3 +1,6 @@
 export interface DeleteButtonProps {
-    id:number;
+    id: number;
+    resource: string;
+    itemName: string;
+    errorMessage?: string;
 }

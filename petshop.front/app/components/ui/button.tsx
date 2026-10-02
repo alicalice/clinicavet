@@ -2,16 +2,23 @@ import type { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "primary" | "secondary" | "danger" | "ghost";
+    size?: "sm" | "md";
 }
 
 export default function Button({
     variant = "primary",
+    size = "md",
     className = "",
     type = "button",
     ...props
 }: ButtonProps) {
     const baseStyles =
-        "rounded-md px-4 py-2 font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+        "rounded-md font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+
+    const sizeStyles = {
+        sm: "px-3 py-1 text-sm",
+        md: "px-4 py-2",
+    };
 
     const variantStyles = {
         primary:
@@ -30,7 +37,7 @@ export default function Button({
     return (
         <button
             type={type}
-            className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+            className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
             {...props}
         />
     );

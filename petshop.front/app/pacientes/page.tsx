@@ -1,6 +1,5 @@
 import ClienteDelete from "../components/buttons/ClienteDelete";
 import PetEdit from "../components/buttons/ClienteEdit";
-import TutorEdit from "../components/buttons/TutorEdit";
 import PetForm from "../components/forms/ClienteForm";
 import { api } from "../components/resources/api";
 

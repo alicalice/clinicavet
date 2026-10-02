@@ -3,9 +3,13 @@
 import { useState } from "react";
 import { api } from "../resources/api";
 import Modal from "../ui/modal";
+import Button from "../ui/button";
+import { useRouter } from "next/navigation";
 
 export default function ClinicaForm(){
     const [isOpen,setIsOpen] = useState(false);
+
+    const router = useRouter();
     
         const [data,setData] = useState({
             nome:"",
@@ -37,6 +41,7 @@ export default function ClinicaForm(){
     
             if(res.ok){
                 alert("Clinica cadastrada com sucesso!");
+                router.refresh()
                 setIsOpen(false);
                 setData({
                     nome:"",
@@ -57,12 +62,11 @@ export default function ClinicaForm(){
         return(
                     <div>
                         <div className="my-4">
-                            <button
+                            <Button
                                 onClick={() => setIsOpen(true)}
-                                className="rounded-md bg-primary px-4 py-2 font-medium text-foreground transition-colors hover:bg-primary-hover"
                             >
                                 Cadastrar Clínica
-                            </button>
+                            </Button>
                         </div>
 
                         <Modal
@@ -122,12 +126,12 @@ export default function ClinicaForm(){
                                     />
                                 </div>
 
-                                <button
+                                <Button
                                     type="submit"
-                                    className="w-full rounded-md bg-primary px-4 py-2 font-medium text-foreground transition-colors hover:bg-primary-hover"
+                                    className="w-full"
                                 >
-                                    Salvar Clínica
-                                </button>
+                                    Salvar
+                                </Button>
                             </form>
                         </Modal>
                     </div>

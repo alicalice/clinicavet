@@ -1,34 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  /* Cores da identidade */
-  --background: #fffef7;
+  /* Identidade */
+  --background: #fcfaf3;
   --surface: #ffffff;
+
   --primary: #fdfbd4;
-  --primary-hover: #f4f1b8;
+  --primary-hover: #f4f1b5;
 
   /* Textos */
   --foreground: #403b35;
   --muted: #756e64;
 
   /* Estrutura */
-  --border: #e7e0d5;
+  --border: #e5ded2;
 
+  /* Estados */
   --danger: #f3d0d0;
   --danger-hover: #e8baba;
   --danger-text: #713c3c;
 }
 
-
-
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
+
   --color-danger: var(--danger);
   --color-danger-hover: var(--danger-hover);
   --color-danger-text: var(--danger-text);
@@ -47,73 +50,4 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-}
-
-.modal-backdrop-in {
-    animation: modal-backdrop-in 200ms ease-out forwards;
-}
-
-.modal-backdrop-out {
-    animation: modal-backdrop-out 200ms ease-in forwards;
-}
-
-.modal-panel-in {
-    animation: modal-panel-in 200ms ease-out forwards;
-}
-
-.modal-panel-out {
-    animation: modal-panel-out 200ms ease-in forwards;
-}
-
-@keyframes modal-backdrop-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes modal-backdrop-out {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes modal-panel-in {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes modal-panel-out {
-    from {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .modal-backdrop-in,
-    .modal-backdrop-out,
-    .modal-panel-in,
-    .modal-panel-out {
-        animation-duration: 1ms;
-    }
 }
